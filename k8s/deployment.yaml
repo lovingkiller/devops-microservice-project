@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind : Deployment
+metadata:
+  name: flask-app-Deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-api
+  template:
+    metadata:
+    labels:
+    app: flask-api
+  
+  spec: 
+    containers:
+    -  name: flask-container
+       image: flask-api:local
+       imagePullPolicy: Never
+       ports:
+       - containerPort: 5000
+       env:
+       - name: APP_ENV
+         value: "Local-Minikube-Cluster"
+         
