@@ -6,7 +6,7 @@ WORKDIR /app
 
 # cOPY REQUIREMENT AND INSTALL DEPENDENCIES
 COPY requirement.txt .
-RUN pip install --no-cache-dir -r requirement.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 #COPY ALL CODE IN Container
 COPY . .
