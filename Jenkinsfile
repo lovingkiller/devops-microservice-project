@@ -12,7 +12,7 @@ pipeline {
         stage('Build Docker Image'){
             steps {
                 echo 'Building Docker Image...'
-                sh 'docker build -t flask-app:local'
+                sh 'docker build -t flask-app:local .'
             }
         }
 
