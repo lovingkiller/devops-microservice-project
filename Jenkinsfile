@@ -16,13 +16,15 @@ pipeline {
             }
         }
 
-        stage('Deployment to kubernetes') {
+       stage('Deployment to kubernetes') {
             steps {
-                echo 'Deploying to Minikube Clister...'
-                sh 'kubectl apply -f k8s/deployment.yaml --validate=false'
-                sh 'kubectl apply -f k8s/service.yaml --validate=false'
-                sh 'kubectl rollout restart deployment flask-app-deployment'
+                echo 'Deploying to Minikube Cluster...'
+                // `--server` flag laga kar hum kubectl ka muh zabardasti Minikube ki taraf mod rahe hain
+                // XXXXX ko apne kubectl cluster-info waale port se badal lena
+                sh 'kubectl apply -f k8s/deployment.yaml --server=https://host.docker.internal:XXXXX --validate=false --insecure-skip-tls-verify'
+                sh 'kubectl apply -f k8s/service.yaml --server=https://host.docker.internal:XXXXX --validate=false --insecure-skip-tls-verify'
             }
+        
         }
     }
 }
