@@ -18,12 +18,21 @@ pipeline {
 
        stage('Deployment to kubernetes') {
             steps {
-                echo 'Deploying to Minikube Cluster...'
-                // `--server` flag laga kar hum kubectl ka muh zabardasti Minikube ki taraf mod rahe hain
-                // XXXXX ko apne kubectl cluster-info waale port se badal lena
-                sh 'kubectl apply -f k8s/deployment.yaml --server=https://host.docker.internal:XXXXX --validate=false --insecure-skip-tls-verify'
-                sh 'kubectl apply -f k8s/service.yaml --server=https://host.docker.internal:XXXXX --validate=false --insecure-skip-tls-verify'
+                echo 'Deploying to Docker Desktop K8s Cluster...'
+                // Hum direct token aur server flags dekar config file ko bypass kar rahe hain
+                sh '''
+                kubectl apply -f k8s/deployment.yaml \
+                  --server=https://host.docker.internal:6443 \
+                  --insecure-skip-tls-verify=true \
+                  --validate=false
+                
+                kubectl apply -f k8s/service.yaml \
+                  --server=https://host.docker.internal:6443 \
+                  --insecure-skip-tls-verify=true \
+                  --validate=false
+                '''
             }
+        }
         
         }
     }
